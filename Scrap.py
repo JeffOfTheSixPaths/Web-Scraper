@@ -32,30 +32,30 @@ def get_articles(site):
 	
 	
 
-def rmAngles(data):
-	##data=data[:index] + data[index+1:] is closed, open
+def rmAngles(string_with_tags):
+	# removes the tags by finding all the < and > symbols and removing everything between them
+	
+	data = str(string_with_tags)
+	
+	## less is the < "less than" and greater is > "greater than"
+	less_size = len(string_with_tags.split(<))
+	greater_size = len(string_with_tags.split(>))
+	less = string_with_tags.find_all("<")
+	greater = string_with_tags.find_all(">")
+	
+	## less == greater since it's parsing HTML tags 
+	if less_size == greater_size:
+		for i in range(less_size):
+			string_with_tags = string_with_tags[:less[i]] + string_with_tags[greater[i+1]:] 
+			#string=string[:index] + string[index+1:] removes the character at [index], but not at [index+1]
+	else:
+		print("Error:spare \"<\" or \">\" character in: \n" + string_with_tags) # if there was a spare, the parsing algorithm would break
 	
 	
 	
-	delete = False
-	data = str(data)
-	index = 0;
-	for i in range(len(data)-1):
-		if index < len(data):
-			if not delete:
-				if data[index] == '<':
-					delete = True	
-			if delete:
-				data=data[:index] + data[index+1:]
-			if data[index] == '>':
-				data=data[:index] + data[index+1:]
-				delete = False;
-			elif not delete:
-				index = index + 1
-		
 			
 		
-	return data
+	return string_with_tags ##don't want to do string = string_with_tags somewhere just for return string 
 
 
 
