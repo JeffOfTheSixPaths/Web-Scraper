@@ -38,8 +38,8 @@ def rmAngles(string_with_tags):
 	data = str(string_with_tags)
 	
 	## less is the < "less than" and greater is > "greater than"
-	less_size = len(string_with_tags.split(<))
-	greater_size = len(string_with_tags.split(>))
+	less_size = len(string_with_tags.split("<"))
+	greater_size = len(string_with_tags.split(">"))
 	less = string_with_tags.find_all("<")
 	greater = string_with_tags.find_all(">")
 	
