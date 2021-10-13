@@ -33,6 +33,10 @@ def get_articles(site):
 	
 
 def rmAngles(data):
+	##data=data[:index] + data[index+1:] is closed, open
+	
+	
+	
 	delete = False
 	data = str(data)
 	index = 0;
