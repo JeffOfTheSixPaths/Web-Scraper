@@ -44,7 +44,7 @@ def rmAngles(string_with_tags):
 	
 	## less == greater since it's parsing HTML tags 
 	if less_size == greater_size:
-		for i in range(less_size):
+		for i in range(less_size-1):
 			less = string_with_tags.find("<")
 			greater = string_with_tags.find(">")
 			string_with_tags = string_with_tags[:less] + string_with_tags[greater+1:] 
