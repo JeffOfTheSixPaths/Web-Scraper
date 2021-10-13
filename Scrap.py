@@ -47,7 +47,7 @@ def rmAngles(string_with_tags):
 		for i in range(less_size):
 			less = string_with_tags.find("<")
 			greater = string_with_tags.find(">")
-			string_with_tags = string_with_tags[:less[i]] + string_with_tags[greater[i+1]:] 
+			string_with_tags = string_with_tags[:less] + string_with_tags[greater+1:] 
 			#string=string[:index] + string[index+1:] removes the character at [index], but not at [index+1]
 	else:
 		print("Error:spare \"<\" or \">\" character in: \n" + string_with_tags) # if there was a spare, the parsing algorithm would break
