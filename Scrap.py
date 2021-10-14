@@ -19,7 +19,7 @@ def find_href(string):
 	
 	
 def get_summaries(site):
-	return rmAngles(str(get_page(str(site)).find_all("div", class_="caas-body")[1].txt))
+	return rmAngles(str(get_page(str(site)).find_all("div", class_="caas-body")[0].txt))
 
 def get_articles(site):
 	article = get_summaries(str(site))
