@@ -58,7 +58,15 @@ def rmAngles(string_with_tags):
 		
 	return string_with_tags ##don't want to do string = string_with_tags somewhere just for return string 
 
-
+def not_video(link):
+	if link.find("/video/") == -1:
+			link = link.split("/")[2]
+			print(rmAngles(headline_list[i+4]))
+			print("\n")
+			print(link)
+			print("\n")
+			print(rmAngles(summ[i]))
+			print("\n\n\n")
 
 
 #448106
