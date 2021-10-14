@@ -1,21 +1,14 @@
 from Scrap import *
 import json
-f = open('imp.json')
+f = open('websites.json')
 data = json.load(f)
 headline_list = get_page(data["yahoo finance"]["url"]).find_all("h3")
 summ = get_summaries(data["yahoo finance"]["url"])
 
 
 
-
-for i in range(3,len(summ)-1):
-		link = find_href(headline_list[i+4])
-		if link.find("/video/") == -1:
-			link = link.split("/")[2]
-			get_articles(str(data["yahoo finance"]["url"]+ link))
-		else:
-			i += 1
-
+print(rmAngles("<amognus> this is the headline </amongnus>"))
+print(rmAngles("<n> <this </n>"))
 
 
 
