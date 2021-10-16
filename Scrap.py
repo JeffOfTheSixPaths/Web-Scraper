@@ -3,7 +3,13 @@ import requests
 from bs4 import BeautifulSoup
 import json
 ## lxml parser downloaded
-temp = 0;
+f = open('websites.json')
+data = json.load(f)
+research =[["headline", "summary", "article"]]
+temp = 0
+
+
+
 def get_page(url):
 	temp = BeautifulSoup(requests.get(str(url)).text,'lxml')
 	return BeautifulSoup(requests.get(str(url)).text,'lxml')
@@ -59,38 +65,55 @@ def rmAngles(string_with_tags):
 		print("Error:spare \"<\" or \">\" character in: \n" + string_with_tags) # if there was a spare, the parsing algorithm would break
 	return string_with_tags ##don't want to do string = string_with_tags somewhere just for return string 
 
-def not_video(href):
+def not_exclude(href):
 	#finds href already
 	if href.find("/video/") == -1:
 			#link = link.split("/")[2]
 			return True
 
 
-#448106
-if __name__ == '__main__':
-	f = open('websites.json')
-	data = json.load(f)
-	research =[["headline", "summary", "article"]]
-	headline_list = get_headlines(data['yahoo finance']['url'])
-	summary_list = get_summaries("https://finance.yahoo.com/news/")
-	#headline should be buffered by +6 and summaries should be buffered by +4, so the initial range is 4 and headline_list get's 2 added to it's index
+
+
+
+
+
+
+
+def nue_net(link):
+	link = str(link)
+	headline_list = get_headlines(link)
+	summary_list = get_summaries(link)
 	print(len(headline_list))
 	print(len(summary_list))
-
 	for i in range(2,len(summary_list)):
 		temp_list = [rmAngles(headline_list[i+4]),rmAngles(summary_list[i])]
 		article_href = find_href(headline_list[i+2])
 		article_link = "https://finance.yahoo.com" + article_href
 		print(article_link)
-		if not_video(article_href):
+		if not_exclude(article_href):
 			temp_list.append(get_articles(article_link))
 			
 		else:
 			temp_list.append("<video>")
 		research.append(temp_list)
+	return research
+	
+
+
+
+def print_research():
 	for i in range(len(research) - 1):
 		for index in range(3):
 			print(research[i][index])
 			print("\n")
 		print(len(research) - i - 2)
 		input("press ENTER to continue... \n") #make shift pause
+
+
+
+
+
+
+
+
+#448106
