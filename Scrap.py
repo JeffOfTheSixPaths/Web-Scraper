@@ -9,7 +9,8 @@ def get_page(url):
 	return BeautifulSoup(requests.get(str(url)).text,'lxml')
 	
 def get_headlines(site):
-	if(site == "yahoo finance"):
+	site = str(site)
+	if(site == "https://finance.yahoo.com/news/"):
 		headlines = get_page("https://finance.yahoo.com/news").find_all("h3")
 		return headlines
 		
@@ -21,7 +22,7 @@ def find_href(string):
 def get_summaries(site):
 	return get_page(str(site)).find_all("p")
 
-def get_articles(site):
+def print_summaries(site):
 	article = get_summaries(str(site))
 	print("====================================")
 	for i in range(len(article) - 1):
@@ -29,66 +30,67 @@ def get_articles(site):
 			print(rmAngles(article[i]))
 			print("\n\n")
 	print("====================================")
-	
+
+def get_articles(site):
+	string = rmAngles(str(get_page(str(site)).find_all("div", class_="caas-body")))
+	print(string)	
+	string = string[:0] + string[1:]
+	return string[:-1]
 	
 
 def rmAngles(string_with_tags):
 	# removes the tags by finding all the < and > symbols and removing everything between them
 	
-	data = str(string_with_tags)
+	string_with_tags = str(string_with_tags)
 	
-	## less is the < "less than" and greater is > "greater than"
+	## less is < "less than" and greater is > "greater than"
 	less_size = len(string_with_tags.split("<"))
 	greater_size = len(string_with_tags.split(">"))
 	
 	
 	## less == greater since it's parsing HTML tags 
 	if less_size == greater_size:
-		for i in range(less_size-1):
+		for i in range(int(less_size)-1):
 			less = string_with_tags.find("<")
 			greater = string_with_tags.find(">")
 			string_with_tags = string_with_tags[:less] + string_with_tags[greater+1:] 
 			#string=string[:index] + string[index+1:] removes the character at [index], but not at [index+1]
 	else:
 		print("Error:spare \"<\" or \">\" character in: \n" + string_with_tags) # if there was a spare, the parsing algorithm would break
-	
-	
-	
-			
-		
 	return string_with_tags ##don't want to do string = string_with_tags somewhere just for return string 
 
-def not_video(link):
-	if link.find("/video/") == -1:
-			link = link.split("/")[2]
-			print(rmAngles(headline_list[i+4]))
-			print("\n")
-			print(link)
-			print("\n")
-			print(rmAngles(summ[i]))
-			print("\n\n\n")
+def not_video(href):
+	#finds href already
+	if href.find("/video/") == -1:
+			#link = link.split("/")[2]
+			return True
 
 
 #448106
 if __name__ == '__main__':
 	f = open('websites.json')
 	data = json.load(f)
-	headline_list = get_page(data["yahoo finance"]["url"]).find_all("h3")
-	summ = get_summaries(data["yahoo finance"]["url"])
-	for i in range(3,len(summ)-1):
-		link = find_href(headline_list[i+4])
-		if link.find("/video/") == -1:
-			link = link.split("/")[2]
-			print(rmAngles(headline_list[i+4]))
-			print("\n")
-			print(link)
-			print("\n")
-			print(rmAngles(summ[i]))
-			print("\n\n\n")
+	research =[["headline", "summary", "article"]]
+	headline_list = get_headlines(data['yahoo finance']['url'])
+	summary_list = get_summaries("https://finance.yahoo.com/news/")
+	#headline should be buffered by +6 and summaries should be buffered by +4, so the initial range is 4 and headline_list get's 2 added to it's index
+	print(len(headline_list))
+	print(len(summary_list))
+
+	for i in range(2,len(summary_list)):
+		temp_list = [rmAngles(headline_list[i+4]),rmAngles(summary_list[i])]
+		article_href = find_href(headline_list[i+2])
+		article_link = "https://finance.yahoo.com" + article_href
+		print(article_link)
+		if not_video(article_href):
+			temp_list.append(get_articles(article_link))
+			
 		else:
-			i += 1
-
-	
-
-
-	
+			temp_list.append("<video>")
+		research.append(temp_list)
+	for i in range(len(research) - 1):
+		for index in range(3):
+			print(research[i][index])
+			print("\n")
+		print(len(research) - i - 2)
+		input("press ENTER to continue... \n") #make shift pause
