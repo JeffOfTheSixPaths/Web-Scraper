@@ -33,6 +33,7 @@ def print_summaries(site):
 
 def get_articles(site):
 	string = rmAngles(str(get_page(str(site)).find_all("div", class_="caas-body")))
+	print(string)	
 	string = string[:0] + string[1:]
 	return string[:-1]
 	
@@ -58,11 +59,9 @@ def rmAngles(string_with_tags):
 		print("Error:spare \"<\" or \">\" character in: \n" + string_with_tags) # if there was a spare, the parsing algorithm would break
 	return string_with_tags ##don't want to do string = string_with_tags somewhere just for return string 
 
-def not_video(link):
+def not_video(href):
 	#finds href already
-	headline_list = get_page(link).find_all("h3")
-	link = find_href(str(headline_list[i+4]))
-	if link.find("/video/") == -1:
+	if href.find("/video/") == -1:
 			#link = link.split("/")[2]
 			return True
 
@@ -78,12 +77,20 @@ if __name__ == '__main__':
 	print(len(headline_list))
 	print(len(summary_list))
 
-	for i in range(4,len(summary_list)):
-		temp_list = [str(headline_list[i+2]),str(summary_list[i]),str(get_articles(data['yahoo finance']['url']))]
+	for i in range(2,len(summary_list)):
+		temp_list = [rmAngles(headline_list[i+4]),rmAngles(summary_list[i])]
+		article_href = find_href(headline_list[i+2])
+		article_link = "https://finance.yahoo.com" + article_href
+		print(article_link)
+		if not_video(article_href):
+			temp_list.append(get_articles(article_link))
+			
+		else:
+			temp_list.append("<video>")
 		research.append(temp_list)
 	for i in range(len(research) - 1):
 		for index in range(3):
 			print(research[i][index])
 			print("\n")
 		print(len(research) - i - 2)
-		input("press ENTER to continue... \n")
+		input("press ENTER to continue... \n") #make shift pause
