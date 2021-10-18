@@ -6,8 +6,14 @@ to do:
   - get yahoo finace data
   - get data from multiple sites
 dependacies
-	```
+
+dependancies
+	```python
 	pip install yfinance
 	pip install BeautifulSoup4
 	pip install lxml
+	pip install numpy
+	pip install matplotlib
+	pip install requests
+	pip install pandas
 	```
