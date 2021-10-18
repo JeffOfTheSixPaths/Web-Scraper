@@ -5,3 +5,9 @@ to do:
   - be able to remove special characters from article
   - get yahoo finace data
   - get data from multiple sites
+dependacies
+	```
+	pip install yfinance
+	pip install BeautifulSoup4
+	pip install lxml
+	```
