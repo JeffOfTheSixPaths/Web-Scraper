@@ -4,3 +4,4 @@ Getting headlines, summaries, and articles from yahoo finance and other stock ma
 to do: 
   - be able to remove special characters from article
   - get yahoo finace data
+  - get data from multiple sites
